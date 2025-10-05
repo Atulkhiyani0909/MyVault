@@ -15,7 +15,7 @@ const UserSignUp = z.object({
 })
 
 
-export const signUp = async (email: String, password: String) => {
+export const signUp = async (email: string, password: string) => {
     try {
         await dbConnect();
 
@@ -82,6 +82,7 @@ export const saveTOVault = async (title: string, encryptedPayload: string) => {
     const newVault = await Vault.create({ 
         title: title, 
         encryptedPayload: encryptedPayload, 
+        // @ts-expect-error: Property 'X' does not exist on type 'Y'
         userID: session?.user?.id 
     });
     
@@ -105,7 +106,7 @@ export const showVaults = async () => {
         return null;
     }
 
-    //@ts-ignore
+    // @ts-expect-error: Property 'X' does not exist on type 'Y'
     const vaults = await Vault.find({ userID: session.user.id }).select('-userID');
 
 
@@ -113,7 +114,7 @@ export const showVaults = async () => {
 }
 
 
-export const deleteVault = async (id: String) => {
+export const deleteVault = async (id: string) => {
     await dbConnect();
     if (!id) {
         return null;
@@ -131,7 +132,7 @@ export const deleteVault = async (id: String) => {
 }
 
 
-export const getVault = async (id: any) => {
+export const getVault = async (id: string) => {
     await dbConnect();
 
     const data = await Vault.findById(id);
@@ -161,7 +162,7 @@ export const editToVault = async (title: string, encryptedPayload: string, id: s
     }
     
     
-    //@ts-ignore
+    // @ts-expect-error: Property 'X' does not exist on type 'Y'
     const existingVault = await Vault.findOne({ _id: id, userID: session.user.id });
 
     if (!existingVault) {
@@ -187,7 +188,7 @@ export const editToVault = async (title: string, encryptedPayload: string, id: s
 }
 
 
-export const getPass = async (pass: any) => {
+export const getPass = async (pass: string) => {
     console.log(pass);
     
     await dbConnect();
@@ -196,7 +197,7 @@ export const getPass = async (pass: any) => {
         return null;
     }
 
-    //@ts-ignore
+    // @ts-expect-error: Property 'X' does not exist on type 'Y'
     const userDetails = await User.findById(session?.user.id);
     
     const passwordVerify = await bcrypt.compare(pass, userDetails.password);

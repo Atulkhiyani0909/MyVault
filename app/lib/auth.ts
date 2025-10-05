@@ -3,6 +3,18 @@ import { User } from '../db/schema';
 import bcrypt from 'bcryptjs';
 import dbConnect from '../db/intit';
 import { AuthOptions } from 'next-auth';
+import type { JWT } from "next-auth/jwt";
+import { type Session } from "next-auth";
+
+interface User{
+    email:string,
+    password:string
+}
+
+type AuthorizedUser = {
+    id: string;
+    email: string;
+};
 
 export const authOptions: AuthOptions = {
     providers: [
@@ -12,7 +24,7 @@ export const authOptions: AuthOptions = {
                 email: { label: 'email', type: 'email' },
                 password: { label: 'password', type: 'password' },
             },
-            async authorize(credentials: any) {
+            async authorize(credentials: User | undefined):Promise<AuthorizedUser | null> {
                 await dbConnect();
                 
                 if (!credentials) {
@@ -42,16 +54,18 @@ export const authOptions: AuthOptions = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: { // Corrected from 'callback' to 'callbacks'
+       
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id; // Use 'id' for consistency
             }
             return token;
         },
-        async session({ session, token ,user}) {
+    
+        async session({ session, token }:{ session: Session; token: JWT }) {
             if (session.user) {
-                (session.user as any).id = token.id; // Cast to 'any' or augment session type
-
+                 // @ts-expect-error: TODO: Define a proper type for this API response post-MVP
+                (session.user).id = token.id; 
             }
             return session;
         }

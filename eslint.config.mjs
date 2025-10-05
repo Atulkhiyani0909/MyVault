@@ -18,6 +18,7 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "D:\Task\my-vault\app\actions"
     ],
   },
 ];

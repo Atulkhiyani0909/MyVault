@@ -31,7 +31,7 @@ export default function EditVaultPage() {
             if (char) str += "!@#$%^&*-_+=[]{}~`";
             if (number) str += "0123456789";
             for (let i = 0; i < value; i++) {
-                let char = Math.floor(Math.random() * str.length)
+                const char = Math.floor(Math.random() * str.length)
                 pass += str.charAt(char)
             }
             setshowpass(pass);

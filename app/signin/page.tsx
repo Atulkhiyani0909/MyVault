@@ -11,8 +11,8 @@ export default function SignUpPage() {
     const { status } = useSession();
     const router = useRouter();
 
-    const [email,setEmail]=useState<any>("");
-    const [password,setPassword]=useState<any>("");
+    const [email,setEmail]=useState<string>("");
+    const [password,setPassword]=useState<string>("");
     const [loading,setLoading]=useState(false)
     const [error,setError]=useState("");
 

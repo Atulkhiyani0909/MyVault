@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { GenPassword } from "../components/genPasword";
 import { ShowVaults } from "../components/showVaults";
 
-export default function(){
+export default function Dashboard(){
  const {status} = useSession();
  const router = useRouter();
 
@@ -52,12 +52,12 @@ if(status=="authenticated"){
        <div className="h-screen bg-gray-900 text-white font-sans overflow-hidden">
             <div className="flex h-full">
 
-                {/* Left Column: Password Generator (Fixed) */}
+               
                 <div className="md:w-1/3 lg:w-1/3 p-4 sm:p-6 border-r border-gray-800">
                     <GenPassword />
                 </div>
 
-                {/* Right Column: All Vaults (Scrollable) */}
+                
                 <div className="flex-1 p-4 sm:p-6 overflow-y-auto">
                     <ShowVaults />
                 </div>

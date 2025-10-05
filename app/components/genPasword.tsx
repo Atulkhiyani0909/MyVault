@@ -23,7 +23,7 @@ export function GenPassword() {
             if (number) str += "0123456789";
 
             for (let i = 0; i < value; i++) {
-                let char = Math.floor(Math.random() * str.length + 1)
+                const char = Math.floor(Math.random() * str.length + 1)
                 pass += str.charAt(char)
             }
             setshowpass(pass);
@@ -33,9 +33,24 @@ export function GenPassword() {
 
 
 
-    function clipboard() {
-        navigator.clipboard.writeText(showpass);
-    }
+   function clipboard() {
+   
+    navigator.clipboard.writeText(showpass).then(() => {
+        console.log("Password copied to clipboard!");
+
+        //now set for autoclear after 15 sec
+        setTimeout(() => {
+            navigator.clipboard.writeText("").then(() => {
+                console.log("Clipboard cleared after 15s!");
+            }).catch(err => {
+                console.error("Failed to clear clipboard:", err);
+            });
+        }, 15000); 
+    }).catch(err => {
+        console.error("Failed to copy:", err);
+    });
+}
+
 
    
 
@@ -77,9 +92,9 @@ export function GenPassword() {
                 setUrl("");
                 setNotes("");
             }
-        } catch (error) {
-        
-            sessionStorage.removeItem('masterKey'); 
+        } catch (e) {
+            sessionStorage.removeItem('masterKey')
+            console.log(e);
             alert("An error occurred. The master password might be incorrect. Please try again.");
         } finally {
             setLoading(false);
@@ -162,7 +177,7 @@ export function GenPassword() {
                     min={6}
                     max={26}
                     className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                    onChange={(e:any)=>setValue(e.target.value)}
+                    onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setValue(Number(e.target.value))}
                 />
                 <div className="flex items-center justify-around pt-1">
                     <div className="flex items-center">

@@ -11,9 +11,4 @@ export default function Home() {
   }else{
     return router.push('/signin');
   }
-  return (
-    <>
-   
-    </>
-  );
 }

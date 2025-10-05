@@ -19,7 +19,7 @@ return (
      
       <div>
        <button
-          onClick={user ? signOut : signIn}
+          onClick={() => (user ? signOut() : signIn())}
         >
           {user ? "Logout" : "Login"}
         </button>
