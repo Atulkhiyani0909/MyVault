@@ -29,6 +29,10 @@ This implementation covers all *must-have* features, demonstrating the complete 
 - **Secure Session Management**: Master password stored in `sessionStorage` for the session and cleared when you close the tab.  
 - **Responsive & Modern UI**: Dark-themed, mobile-friendly interface built with Tailwind CSS.  
 
+## 🔐 Crypto Note
+This project uses **CryptoJS (AES encryption)** for client-side encryption.  
+It was chosen because of its simplicity, widespread adoption, and reliability for standard cryptographic operations — making it ideal for a secure MVP.  
+
 ---
 
 ## 💻 Tech Stack
