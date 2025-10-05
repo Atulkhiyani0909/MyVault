@@ -95,6 +95,24 @@ export function ShowVaults() {
         vault.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+       function clipboard(pass) {
+   
+        navigator.clipboard.writeText(pass).then(() => {
+        console.log("Password copied to clipboard!");
+
+        //now set for autoclear after 15 sec
+        setTimeout(() => {
+            navigator.clipboard.writeText("").then(() => {
+                console.log("Clipboard cleared after 15s!");
+            }).catch(err => {
+                console.error("Failed to clear clipboard:", err);
+            });
+        }, 15000); 
+    }).catch(err => {
+        console.error("Failed to copy:", err);
+    });
+}
+
     return (
         <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8">
             <div className="max-w-6xl mx-auto">
@@ -155,6 +173,10 @@ export function ShowVaults() {
                                         <div>
                                             <p className="text-xs text-gray-500 font-semibold">Password</p>
                                             <p className="text-gray-300">{decryptedData[val._id.toString()].password}</p>
+                                            {" "}
+                                            <button className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={()=>{
+                                                clipboard(decryptedData[val._id.toString()].password)
+                                            }}>Copy</button>
                                         </div>
                                          <div>
                                             <p className="text-xs text-gray-500 font-semibold">Notes</p>
