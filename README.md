@@ -122,7 +122,8 @@ Perfect for **rapid MVP development**.
 
 <img width="1624" height="729" alt="image" src="https://github.com/user-attachments/assets/53fea864-35e9-4169-94f0-3db9ded44c1c" />
 
-<img width="1857" height="840" alt="image" src="https://github.com/user-attachments/assets/c5503067-5d33-44ee-9c68-c5a9152192a4" />
+<img width="1877" height="846" alt="image" src="https://github.com/user-attachments/assets/a1d82096-3667-425f-9b6c-d100620bf7ec" />
+
 
 <img width="1632" height="788" alt="image" src="https://github.com/user-attachments/assets/9c440c07-42ed-4404-95a5-ba97fd51ed09" />
 
