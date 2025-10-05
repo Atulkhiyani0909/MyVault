@@ -99,7 +99,7 @@ Perfect for **rapid MVP development**.
    ```bash
    git clone https://github.com/your-username/my-vault.git
    cd my-vault
-   
+```bash 
 npm install
 # or
 yarn install
