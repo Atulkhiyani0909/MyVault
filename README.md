@@ -83,6 +83,13 @@ This MVP uses **CryptoJS** for client-side AES encryption because of its:
 Perfect for **rapid MVP development**.
 
 ---
+## 📋 Vault Item Structure
+Each saved vault entry contains:
+- Title  
+- Username / Email  
+- Password (encrypted)  
+- URL (optional)  
+- Notes (optional)  
 
 ## 🚀 Getting Started
 
