@@ -1,7 +1,7 @@
 'use client'
 
 import { signIn, useSession } from "next-auth/react"
-import { redirect, useRouter } from 'next/navigation'
+import {  useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from "react"
 import { signUp } from "../actions/initDb";
 import Link from "next/link";
@@ -89,7 +89,7 @@ export default function SignUpPage() {
                     value={email} 
                     type="email" 
                     placeholder="Email" 
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                     className="w-full px-4 py-2 text-gray-200 bg-gray-900/60 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-500 transition-shadow"
                     required
                 />
@@ -97,7 +97,7 @@ export default function SignUpPage() {
                     value={password} 
                     type="password" 
                     placeholder="Password" 
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                     className="w-full px-4 py-2 text-gray-200 bg-gray-900/60 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-500 transition-shadow"
                     required
                 />

@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs"
-import { title } from "process";
-import { required } from "zod/mini";
+
 
 const userSchema =new  mongoose.Schema({
     email:{

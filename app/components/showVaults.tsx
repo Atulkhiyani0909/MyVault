@@ -3,14 +3,13 @@
 import { useEffect, useState } from "react";
 import { deleteVault, showVaults } from "../actions/initDb";
 import { useRouter } from "next/navigation";
-import CryptoJS from 'crypto-js'; 
+import CryptoJS from 'crypto-js';
 
 interface VaultsType {
     title: string,
     encryptedPayload: string,
     _id: string
 }
-
 
 interface DecryptedDataType {
     password?: string,
@@ -22,14 +21,14 @@ export function ShowVaults() {
     const [vaults, setVaults] = useState<VaultsType[]>([]);
     const router = useRouter();
 
-    
     const [masterKey, setMasterKey] = useState<string | null>(null);
-  
     const [decryptedData, setDecryptedData] = useState<Record<string, DecryptedDataType>>({});
-
     
+  
+    const [searchQuery, setSearchQuery] = useState('');
+
+   
     useEffect(() => {
-       
         const storedKey = sessionStorage.getItem('masterKey');
         if (storedKey) {
             setMasterKey(storedKey);
@@ -45,41 +44,40 @@ export function ShowVaults() {
                 console.error("Failed to fetch vaults:", error);
             }
         };
-    
-        const interval = setInterval(fetchData, 1000);
+      
+      
+        fetchData();
 
-        return (()=>clearInterval(interval));
-    }, [vaults]);
+       
+        const interval = setInterval(fetchData, 5000); // Poll every 5 seconds
 
-    
+      
+        return () => clearInterval(interval);
+    }, []);
+
     const handleDecrypt = (vaultId: string, encryptedPayload: string) => {
         let key = masterKey;
 
-        
         if (!key) {
             const promptedKey = prompt("Please enter your master password to view details:");
             if (!promptedKey) {
-                return; 
+                return;
             }
-        
             sessionStorage.setItem('masterKey', promptedKey);
             setMasterKey(promptedKey);
             key = promptedKey;
         }
 
-        
         try {
             const bytes = CryptoJS.AES.decrypt(encryptedPayload, key);
             const decryptedString = bytes.toString(CryptoJS.enc.Utf8);
             
-           
             if (!decryptedString) {
                 throw new Error("Wrong master key.");
             }
 
             const decryptedObject: DecryptedDataType = JSON.parse(decryptedString);
 
-          
             setDecryptedData(prev => ({
                 ...prev,
                 [vaultId]: decryptedObject
@@ -87,41 +85,58 @@ export function ShowVaults() {
         } catch (error) {
             console.error("Decryption failed:", error);
             alert("Decryption failed. The master key may be incorrect.");
-         
             sessionStorage.removeItem('masterKey');
             setMasterKey(null);
         }
     };
 
+    
+    const filteredVaults = vaults.filter(vault =>
+        vault.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8">
             <div className="max-w-6xl mx-auto">
-                <div className="flex justify-between items-center mb-6">
+                <div className="flex justify-between items-center mb-4">
                     <h1 className="text-3xl font-bold text-white">All Vaults</h1>
                     <button
-    onClick={() => {
-        sessionStorage.removeItem('masterKey');
-        setMasterKey(null);
-        setDecryptedData({}); 
-    }}
-    className="px-3 py-1 text-sm text-gray-400 hover:bg-gray-700 rounded-md flex items-center gap-1.5" 
->
+                        onClick={() => {
+                            sessionStorage.removeItem('masterKey');
+                            setMasterKey(null);
+                            setDecryptedData({});
+                        }}
+                        className="px-3 py-1 text-sm text-gray-400 hover:bg-gray-700 rounded-md flex items-center gap-1.5"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-5 h-5"
+                        >
+                            <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3.5 8H6.5V5.5a3.5 3.5 0 117 0V9z" clipRule="evenodd" />
+                        </svg>
+                        Lock Vaults
+                    </button>
+                </div>
 
-    <svg 
-        xmlns="http://www.w3.org/2000/svg" 
-        viewBox="0 0 20 20" 
-        fill="currentColor" 
-        className="w-5 h-5"
-    >
-        <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3.5 8H6.5V5.5a3.5 3.5 0 117 0V9z" clipRule="evenodd" />
-    </svg>
-{/* this is delete all session */}
-    Lock Vaults
-</button>
+                
+                <div className="mb-6 relative">
+                    <input
+                        type="text"
+                        placeholder="Search by title..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full px-4 py-2 pl-10 text-gray-200 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {vaults.map((val) => (
+                    
+                    {filteredVaults.map((val) => (
                         <div
                             key={val._id.toString()}
                             className="flex flex-col justify-between bg-gray-800 rounded-lg shadow-lg border border-gray-700"
@@ -130,10 +145,8 @@ export function ShowVaults() {
                                 <h2 className="text-xl font-bold text-blue-400">{val.title}</h2>
                             </div>
 
-                           
                             <div className="p-4 space-y-3 flex-grow">
                                 {decryptedData[val._id.toString()] ? (
-                                    
                                     <>
                                         <div>
                                             <p className="text-xs text-gray-500 font-semibold">URL</p>
@@ -149,7 +162,6 @@ export function ShowVaults() {
                                         </div>
                                     </>
                                 ) : (
-                                 
                                     <div className="flex flex-col items-center justify-center h-full text-center">
                                         <p className="text-gray-500">Data is encrypted.</p>
                                         <button 
@@ -163,7 +175,6 @@ export function ShowVaults() {
                             </div>
 
                             <div className="p-2 bg-gray-900/50 rounded-b-lg flex justify-end space-x-2">
-                             
                                 {decryptedData[val._id.toString()] && (
                                     <button 
                                         className="px-3 py-1 text-sm text-gray-400 hover:bg-gray-400/10 rounded-md"
