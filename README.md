@@ -97,24 +97,40 @@ Perfect for **rapid MVP development**.
 
 1. **Clone the repository:**
    ```bash
-   git clone (https://github.com/Atulkhiyani0909/MyVault.git)
+   git clone https://github.com/Atulkhiyani0909/MyVault.git
    cd my-vault
-```bash 
-npm install
-# or
-yarn install
-
-# MongoDB connection
-MONGODB_URI=your_mongodb_connection_string
-
-# NextAuth.js session encryption secret
-NEXTAUTH_SECRET=your_nextauth_secret
-
-# Absolute app URL
-NEXTAUTH_URL=http://localhost:3000
 
 
-npm run dev
-# or
-yarn dev
+   ```bash 
+   npm install
+   # or
+   yarn install
+
+   # MongoDB connection
+   MONGODB_URI=your_mongodb_connection_string
+
+   # NextAuth.js session encryption secret
+    NEXTAUTH_SECRET=your_nextauth_secret
+
+   # Absolute app URL
+   NEXTAUTH_URL=http://localhost:3000
+
+
+   npm run dev
+   # or
+    yarn dev
+
+<img width="1624" height="729" alt="image" src="https://github.com/user-attachments/assets/53fea864-35e9-4169-94f0-3db9ded44c1c" />
+
+<img width="1857" height="840" alt="image" src="https://github.com/user-attachments/assets/c5503067-5d33-44ee-9c68-c5a9152192a4" />
+
+<img width="1632" height="788" alt="image" src="https://github.com/user-attachments/assets/9c440c07-42ed-4404-95a5-ba97fd51ed09" />
+
+**Encrypted Data In DB**
+<img width="940" height="350" alt="image" src="https://github.com/user-attachments/assets/a74d4d08-6155-448e-b2a6-728f03369632" />
+<img width="878" height="282" alt="image" src="https://github.com/user-attachments/assets/535ee02b-292f-4812-9eda-be75b1df4b06" />
+
+
+
+
 
