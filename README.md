@@ -97,7 +97,7 @@ Perfect for **rapid MVP development**.
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/my-vault.git
+   git clone (https://github.com/Atulkhiyani0909/MyVault.git)
    cd my-vault
 ```bash 
 npm install
