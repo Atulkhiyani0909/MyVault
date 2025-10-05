@@ -1,5 +1,6 @@
 'use client'
 import { signIn,signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 function AppBar() {
     const session = useSession();
@@ -10,7 +11,9 @@ return (
     <div className="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
      
       <div className="text-2xl font-bold text-blue-600">
-        MyVault
+       <Link href="/dashboard" className="font-semibold text-blue-400 hover:underline">
+                           MyVault
+                       </Link>
       </div>
 
      

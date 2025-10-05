@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { saveTOVault } from "../actions/initDb"
+import {  saveTOVault } from "../actions/initDb"
+import CryptoJS from 'crypto-js';
 
 export function GenPassword() {
     const [showpass, setshowpass] = useState("")
@@ -12,6 +13,7 @@ export function GenPassword() {
     const [url,setUrl]=useState("");
     const [notes,setNotes]=useState("");
     const [loading,setLoading]=useState(false);
+    
 
     useEffect(() => {
         function genPass() {
@@ -35,31 +37,63 @@ export function GenPassword() {
         navigator.clipboard.writeText(showpass);
     }
 
-    async function saveToDB(){
-        if(!title){
+   
+
+    async function saveToDB() {
+        if (!title) {
             return alert("Enter Title");
         }
-        setLoading(true);
-        const res = await saveTOVault(title,showpass,url,notes)
-        setLoading(false);
-        setTitle("");
-        setUrl("");
-        setNotes("");
-        console.log(res);
-        if(!res){
-            return alert("Saving to DB Failed")
+
+       
+        let masterPassword = sessionStorage.getItem('masterKey');
+
+       
+        if (!masterPassword) {
+            const pass = prompt("Please enter your master password for this session:");
+            if (!pass) {
+                return; 
+            }
+        
+            sessionStorage.setItem('masterKey', pass);
+            masterPassword = pass;
         }
 
+      
+        setLoading(true);
+        try {
+            const dataToEncrypt = { password: showpass, url, notes };
+
+            const encryptedPayload = CryptoJS.AES.encrypt(
+                JSON.stringify(dataToEncrypt),
+                masterPassword 
+            ).toString();
+
+            const res = await saveTOVault(title, encryptedPayload);
+
+            if (!res) {
+                alert("Saving to DB Failed");
+            } else {
+                setTitle("");
+                setUrl("");
+                setNotes("");
+            }
+        } catch (error) {
+        
+            sessionStorage.removeItem('masterKey'); 
+            alert("An error occurred. The master password might be incorrect. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     }
  
     
 
     return (
       <div className="bg-gray-900 text-white font-sans p-4">
-    {/* Removed full-screen centering and reduced padding/spacing for a more compact card */}
+
     <div className="w-full max-w-md mx-auto p-6 space-y-4 bg-gray-800 rounded-lg shadow-lg border border-gray-700">
         
-        {/* Vault Entry Section */}
+       
         <div>
             <h2 className="text-xl font-bold text-center mb-4">Save to Vault</h2>
             <div className="space-y-3">

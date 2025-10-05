@@ -35,13 +35,7 @@ const vaultSchema =new  mongoose.Schema({
         type:String,
         required:true
     },
-    Url:{
-      type:String,
-    },
-    Notes:{
-      type:String
-    },
-    password:{
+    encryptedPayload:{
       type:String,
       required:true
     }

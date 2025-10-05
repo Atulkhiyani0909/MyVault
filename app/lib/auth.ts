@@ -32,7 +32,6 @@ export const authOptions: AuthOptions = {
                 if (!passwordVerify) {
                     return null;
                 }
-
              
                 return {
                     id: userDetails._id.toString(), 
@@ -49,9 +48,10 @@ export const authOptions: AuthOptions = {
             }
             return token;
         },
-        async session({ session, token }) {
+        async session({ session, token ,user}) {
             if (session.user) {
                 (session.user as any).id = token.id; // Cast to 'any' or augment session type
+
             }
             return session;
         }
