@@ -27,7 +27,13 @@ This implementation covers all *must-have* features, demonstrating the complete 
 - **Full CRUD Functionality**: Create, view, edit, and delete entries.  
 - **Built-in Password Generator**: Generate strong, unique passwords with customizable length and symbols.  
 - **Secure Session Management**: Master password stored in `sessionStorage` for the session and cleared when you close the tab.  
-- **Responsive & Modern UI**: Dark-themed, mobile-friendly interface built with Tailwind CSS.  
+- **Responsive & Modern UI**: Dark-themed, mobile-friendly interface built with Tailwind CSS.
+-  **Clipboard** : clipboard autoclear after 15 sec (time set is for 15sec for now )
+
+## 🔐 Crypto Note
+This project uses **CryptoJS (AES encryption)** for client-side encryption.  
+It was chosen because of its simplicity, widespread adoption, and reliability for standard cryptographic operations — making it ideal for a secure MVP.  
+
 
 ---
 
